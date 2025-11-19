@@ -1,7 +1,12 @@
+using CVBuilder.ServiceRegisters;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthServices();
+builder.Services.AddDb(builder);
 
 var app = builder.Build();
 
