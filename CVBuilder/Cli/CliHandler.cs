@@ -1,61 +1,22 @@
-using CuaHangNhacCu.Data.Seeder;
+using CVBuilder.Data.Seeder;
 
-namespace CuaHangNhacCu.Cli;
+namespace CVBuilder.Cli;
 
-public class CliHandler
+public static class CliHandler
 {
     public static async Task Handle(string[] args, WebApplication app)
     {
-        using var scope = app.Services.CreateScope(); //line 9, 10, Lấy services 1 lần, đỡ phải lặp lại using var trong các hàm
-        var services = scope.ServiceProvider;         
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
 
         switch (args[0].ToLower())
         {
-            case "seed-admin":
-                await SeedAdmin(services);
-                break;
             case "seed-data":
                 await SeedData(services);
                 break;
-            case "seed-orders":
-                try
-                {
-                    await TestDataSeeder.SeedOrdersAsync(services);
-                }
-                catch (Exception ex) { Console.WriteLine("❌ Error: " + ex.Message); }
-                break;
-            case "clear-orders":
-                try
-                {
-                    await TestDataSeeder.ClearOrdersAsync(services);
-                }
-                catch (Exception ex) { Console.WriteLine("❌ Error: " + ex.Message); }
-                break;
-            case "seed-cart":
-                try { await TestDataSeeder.SeedCartAsync(services); } 
-                catch (Exception ex) { Console.WriteLine("❌ Error: " + ex.Message); }
-                break;
-            case "clear-cart":
-                try { await TestDataSeeder.ClearCartAsync(services); } 
-                catch (Exception ex) { Console.WriteLine("❌ Error: " + ex.Message); }
-                break;
-
             default:
                 Console.WriteLine("Unknown Command");
                 break;
-        }
-    }
-
-    public static async Task SeedAdmin(IServiceProvider services)
-    {
-        try
-        {
-            await SuperAdminSeeder.SeedSuperAdminAsync(services);
-            Console.WriteLine("✅ Super Admin seeded.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("❌ Error seeding Super Admin: " + ex.Message);
         }
     }
 
