@@ -1,0 +1,45 @@
+@model CVBuilder.ViewModels.DashboardViewModel
+
+@{
+}
+
+  <div class="center-content">
+    <div class="new-cv-section">
+      <div class="mb-4">
+        <i class="bi bi-plus-circle" style="font-size: 4rem; color: var(--primary-color);"></i>
+      </div>
+      <h2>Create Your Perfect CV</h2>
+      <p class="text-muted mb-4">Get started by creating a new CV or choose from our professional templates</p>
+      <a asp-controller="Dashboard" asp-action="Create" class="btn btn-primary btn-lg btn-new-cv px-4 py-2">
+        <i class="bi bi-plus-lg me-2"></i>New CV
+      </a>
+    </div>
+  </div>
+
+
+@section Header {
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+}
+
+@section Scripts {
+  <script>
+    $(document).ready(function () {
+      // Add active class to current nav item
+      $('.nav-link').each(function () {
+        if ($(this).attr('href') === window.location.pathname) {
+          $(this).addClass('active');
+        }
+      });
+
+      // Smooth hover effects
+      $('.btn-new-cv').hover(
+        function () {
+          $(this).css('transform', 'translateY(-2px)');
+        },
+        function () {
+          $(this).css('transform', 'translateY(0)');
+        }
+      );
+    });
+  </script>
+}

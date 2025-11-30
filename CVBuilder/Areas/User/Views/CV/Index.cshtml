@@ -1,0 +1,25 @@
+@model IEnumerable<CVBuilder.Models.CV>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="action-row">
+  <a class="btn btn-primary" asp-action="Create">Create New</a>
+</section>
+<section class="cv-card-grid">
+@foreach (var item in Model) {
+  <div class="cv-card">
+    <div class="cv-card__thumbnail">
+    <img src="https://placehold.co/600x400?text=thumbnail" />
+    </div>
+    <p class="cv-card__title">@item.Title</p>
+    <small class="cv-card__update-at">@item.UpdatedAt</small>
+  </div>
+}
+</section>
+
+@section Scripts {
+  <script src="@Url.Content("~/js/format-update-at.js")"></script>
+}
+

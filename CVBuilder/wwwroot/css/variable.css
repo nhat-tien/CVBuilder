@@ -1,0 +1,14 @@
+:root {
+  --background-color: #ffffff;
+  --sidebar-width: 250px;
+  --primary-color: #007bff;
+  --primary-hover: #0056b3;
+  --text-muted: #6c757d;
+  --border-color: #dee2e6;
+  --sidebar-bg: #f8f9fa;
+
+  --primary-color-500: #007bff;
+
+  --text-color-200: #6c757d;
+}
+

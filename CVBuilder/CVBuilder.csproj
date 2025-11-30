@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Areas\Admin\Controllers\" />
+      <Folder Include="Areas\Admin\Views\" />
+      <Folder Include="Areas\User\Controllers\" />
+      <Folder Include="Areas\User\Views\" />
       <Folder Include="Data\" />
     </ItemGroup>
 
@@ -28,6 +32,13 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\User\Views\CV\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\User\Views\CV\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\User\Views\CV\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\User\Views\CV\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\User\Views\CV\Index.cshtml" />
   </ItemGroup>
 
 </Project>

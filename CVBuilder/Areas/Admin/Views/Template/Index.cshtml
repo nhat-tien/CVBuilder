@@ -1,0 +1,19 @@
+@model IEnumerable<CVBuilder.Models.Template>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="action-row">
+  <a class="btn btn-primary" asp-action="Create">Create New</a>
+</section>
+<section class="template-grid">
+@foreach (var item in Model) {
+  <div class="template-card">
+    <div class="template-card__thumbnail">
+    <img src="@item.PreviewImageUrl" />
+    </div>
+    <p class="template-card__title">@item.Name</p>
+  </div>
+}
+</section>

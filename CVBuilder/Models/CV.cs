@@ -15,6 +15,8 @@ public class CV
 
     public string FileName { get; set; } = "MyCV.pdf";
 
+    public string? Title { get; set; }
+
     public string? ThemeColor { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
