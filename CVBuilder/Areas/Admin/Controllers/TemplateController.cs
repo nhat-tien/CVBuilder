@@ -23,14 +23,14 @@ namespace CVBuilder.Areas.Admin.Controllers
         // GET: Admin/Template
         public async Task<IActionResult> Index()
         {
-            // var templates = await _context.Templates.Include(t => t.User).ToListAsync();
-            List<Template> templates = [
-                new Template() {
-                    Id = 1,
-                    Name = "Classic",
-                    PreviewImageUrl = "https://placehold.co/300x400?text=template"
-                }
-            ];
+            var templates = await _context.Templates.Include(t => t.User).ToListAsync();
+            //List<Template> templates = [
+            //    new Template() {
+            //        Id = 1,
+            //        Name = "Classic",
+            //        PreviewImageUrl = "https://placehold.co/300x400?text=template"
+            //    }
+            //];
             return View(templates);
         }
 
@@ -66,7 +66,7 @@ namespace CVBuilder.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,PreviewImageUrl,HtmlContent,UserId")] Template template)
-        {
+        {            
             if (ModelState.IsValid)
             {
                 _context.Add(template);

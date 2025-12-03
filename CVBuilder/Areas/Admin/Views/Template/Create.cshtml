@@ -1,4 +1,4 @@
-@model CVBuilder.Models.Template
+﻿@model CVBuilder.Models.Template
 
 @{
   ViewData["Title"] = "Create";
@@ -11,10 +11,48 @@
 
 @section Header {
   <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
+  <style>
+
+        #iframe-container {
+            width: max-content;
+            transform: scale(0.5);
+            transform-origin: top;
+        }
+
+        #cv-frame {   
+            width: 210mm;
+            height: 297mm;
+            transform-origin: top center;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        #preview-pane {
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+  </style>
 }
 
 @section Scripts {
   <script src="@Url.Content("~/js/live-html-editor.js")"></script>
+  <script>
+       
+        function scaleCV() {
+            const frameContainer = $("#iframe-container");
+            const previewPane = $("#preview-pane");
+
+            const widthPreviewPane = previewPane.clientWidth;
+
+            const scale = (widthPreviewPane / 793) * 0.75;
+
+            frameContainer.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener("resize", scaleCV);
+        window.addEventListener("load", scaleCV);
+  </script>
+  
 }
 
 <section >
@@ -35,17 +73,22 @@
 
       <div class="row">
         <div class="col-md-6">
-          <div class="flex flex-col bg-gray-900 p-2 border" style="height: 750px;">
+          <div class="flex flex-col bg-gray-900 p-2 border d-flex flex-column" style="height: 750px;">
             <div class="text-xs opacity-70 mb-1">HTML</div>
             <textarea name="HtmlContent" x-model="html" @@input="changed()"
-              class="flex-1 p-2 bg-gray-800 w-100 h-100 border-0"></textarea>
+              class="flex-1 p-2 bg-gray-800 w-100 flex-fill border-0"></textarea>
           </div>
           <span asp-validation-for="HtmlContent" class="text-danger"></span>
         </div>
 
-        <div class="col-md-6 border p-2" style="height: 750px;">
+            <div id="cv-container" class="col-md-6 border p-2 d-flex flex-column" style="height: 750px;">
             <div class="text-xs opacity-70 mb-1">Preview</div>
-          <iframe x-ref="frame" class="w-100 h-100 bg-white"></iframe>
+            <div class="d-flex justify-content-center" id="preview-pane">
+                <div id="iframe-container">
+                    <iframe x-ref="frame" id="cv-frame" class="bg-white"></iframe>
+                </div>
+            </div>
+                    
         </div>
       </div>
     </div>

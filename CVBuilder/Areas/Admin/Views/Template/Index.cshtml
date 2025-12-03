@@ -1,4 +1,4 @@
-@model IEnumerable<CVBuilder.Models.Template>
+﻿@model IEnumerable<CVBuilder.Models.Template>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,18 +7,84 @@
 
 @section Header {
    <link rel="stylesheet" href="~/css/Shared/Template/index.css"/>
+   <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
+}
+
+@section Scripts {
+    <script>
+        function initMenu() {
+            return {
+                open: false,
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
+
+                    this.$refs.button.focus()
+
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (!this.open) return
+
+                    this.open = false
+
+                    focusAfter && focusAfter.focus()
+                }
+            }
+        }
+
+        function handleDelete(id) {
+            showConfirm({ title: "Bạn có chắc xóa?"}, 
+            function () {
+                serviceCall("/Admin/Template/Delete/" + id, 
+                e => {
+                    window.location.reload();
+                }, {})
+            },
+            function () { })
+        }
+    </script>
 }
 
 <section class="action-row">
-  <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus me-2" aria-hidden="true"></i>Create New</a>
 </section>
-<section class="template-grid">
+<section class="template-card-grid">
 @foreach (var item in Model) {
   <div class="template-card">
     <div class="template-card__thumbnail">
     <img src="@item.PreviewImageUrl" />
     </div>
-    <p class="template-card__title">@item.Name</p>
+    <div class="d-flex justify-content-between align-items-center p-1">
+        <p class="template-card__title">@item.Name</p>
+                <div x-data="initMenu()"
+                     x-on:keydown.escape.prevent.stop="close($refs.button)"
+                     x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                     x-id="['dropdown-button']"
+                     class="position-relative">
+
+                    <div x-ref="button"
+                            x-on:click="toggle()"
+                            type="button"
+                            class="btn">
+                        <i class="fa fa-ellipsis-v fs-4" aria-hidden="true"></i>
+                    </div>
+
+                    <div x-ref="panel"
+                         x-show="open"
+                         x-transition.origin.top.left
+                         x-on:click.outside="close($refs.button)"
+                         x-cloak
+                         class="position-absolute top-0 start-100 bg-white flex w-max-content flex-column gap-2 border p-3 rounded shadow-sm">
+                        <a href="#new" class="" onclick="handleDelete(@item.Id)">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Xóa
+                        </a>
+                    </div>
+                </div>
+        
+    </div>
   </div>
 }
 </section>
+@Html.AntiForgeryToken()
