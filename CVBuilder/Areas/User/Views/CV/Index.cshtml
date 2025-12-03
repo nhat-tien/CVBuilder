@@ -1,14 +1,19 @@
-@model IEnumerable<CVBuilder.Models.CV>
+@model CVBuilder.Areas.User.ViewModels.CV.CVIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
+@section Header {
+   <link rel="stylesheet" href="~/css/Shared/Template/index.css"/>
+  <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
+}
+
 <section class="action-row">
-  <a class="btn btn-primary" asp-action="Create">Create New</a>
+  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create New</button>
 </section>
 <section class="cv-card-grid">
-@foreach (var item in Model) {
+@foreach (var item in Model.CVs) {
   <div class="cv-card">
     <div class="cv-card__thumbnail">
     <img src="https://placehold.co/600x400?text=thumbnail" />
@@ -18,6 +23,35 @@
   </div>
 }
 </section>
+
+<div class="modal fade" id="staticBackdrop"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content" x-data="{ selection: ''}">
+      <div class="modal-header">
+         <h2 class="fs-5">Chọn Template</h2>
+      </div>
+      <div class="modal-body" >
+          <section class="template-grid">
+          @foreach (var item in Model.Templates) {
+            <div
+              class="template-card"
+              @@click="selection = @item.Id"
+              :class="{ active: selection === @item.Id}"
+            >
+              <div class="template-card__thumbnail">
+              <img src="@item.PreviewImageUrl" />
+              </div>
+              <p class="template-card__title">@item.Name</p>
+            </div>
+          }
+          </section>
+      </div>
+      <div class="modal-footer">
+        <a :href="`/User/CV/Create?template=${selection}`" class="btn btn-primary" :class="{ disabled: selection == ''}">Tiếp tục</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
   <script src="@Url.Content("~/js/format-update-at.js")"></script>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CVBuilder.Data;
 using CVBuilder.Models;
+using CVBuilder.Areas.User.ViewModels.CV;
 
 namespace CVBuilder.Areas.User.Controllers
 {
@@ -33,7 +34,21 @@ namespace CVBuilder.Areas.User.Controllers
                     UpdatedAt = DateTime.Now.AddHours(-2)
                 }
             ];
-            return View(cvs);
+
+            List<Template> templates = [
+                new Template() {
+                    Id = 1,
+                    Name = "Classic",
+                    PreviewImageUrl = "https://placehold.co/300x400?text=template"
+                }
+            ];
+
+            var model = new CVIndexViewModel() {
+                CVs = cvs,
+                Templates = templates
+            };
+
+            return View(model);
         }
 
         // GET: User/CV/Details/5

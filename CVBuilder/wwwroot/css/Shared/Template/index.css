@@ -1,0 +1,35 @@
+.template-card-grid {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  width: 23%;
+  transition: box-shadow .2s ease-in-out;
+}
+
+
+.template-card.active {
+  border: 1px solid var(--primary-color);
+}
+
+
+.template-card__thumbnail img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.template-card__thumbnail {
+  width: 100%;
+}
+
+.template-card__title {
+  text-align: center;
+}
+
