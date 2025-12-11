@@ -1,4 +1,5 @@
 using CVBuilder.Cli;
+using CVBuilder.Data.Seeder;
 using CVBuilder.ServiceRegisters;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,12 @@ if (!app.Environment.IsDevelopment())
 if(args.Length > 0) {
     await CliHandler.Handle(args, app);
     return;
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await DataSeeder.SeedRolesAsync(services);
 }
 
 app.UseHttpsRedirection();

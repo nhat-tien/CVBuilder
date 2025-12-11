@@ -7,9 +7,58 @@
 @section Header {
    <link rel="stylesheet" href="~/css/Shared/Template/index.css"/>
   <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
+  <style>
+      .form-control {
+          width: auto;
+      }
+  </style>
 }
 
-<section class="action-row">
+@section Scripts {
+  <script src="@Url.Content("~/js/format-update-at.js")"></script>
+    <script>
+        function initMenu() {
+            return {
+                open: false,
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
+
+                    this.$refs.button.focus()
+
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (!this.open) return
+
+                    this.open = false
+
+                    focusAfter && focusAfter.focus()
+                }
+            }
+        }
+
+
+        function handleDelete(id) {
+            showConfirm({ title: "Bạn có chắc xóa?"}, 
+            function () {
+                serviceCall("/User/Cv/Delete/" + id, 
+                e => {
+                    window.location.reload();
+                }, {})
+            },
+            function () { })
+        }
+
+    </script>
+}
+
+<section class="action-row justify-content-between">
+    <form class="my-2 my-lg-0 d-flex flex-row" method="get">
+        <input class="form-control mr-sm-2" type="search" name="q" placeholder="Tìm kiếm theo tên..." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
+    </form>
   <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create New</button>
 </section>
 <section class="cv-card-grid">
@@ -18,7 +67,38 @@
     <div class="cv-card__thumbnail">
     <img src="https://placehold.co/600x400?text=thumbnail" />
     </div>
+    <div class="d-flex justify-content-between align-items-center p-1">
     <p class="cv-card__title">@item.Title</p>
+     <div x-data="initMenu()"
+                     x-on:keydown.escape.prevent.stop="close($refs.button)"
+                     x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                     x-id="['dropdown-button']"
+                     class="position-relative">
+
+                    <div x-ref="button"
+                            x-on:click="toggle()"
+                            type="button"
+                            class="btn">
+                        <i class="fa fa-ellipsis-v fs-4" aria-hidden="true"></i>
+                    </div>
+
+                    <div x-ref="panel"
+                         x-show="open"
+                         x-transition.origin.top.left
+                         x-on:click.outside="close($refs.button)"
+                         x-cloak
+                         class="position-absolute top-0 start-100 bg-white flex w-max-content flex-column gap-2 border p-2 rounded shadow-sm">
+                        <a href="#new" class="" onclick="handleDelete(@item.Id)">        
+                                <i class="fa fa-trash me-2" aria-hidden="true" style="color: var(--warning-color-500)"></i>
+                             Xóa
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@(item.Id)" class="">        
+                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: var(--edit-color-500)"></i>
+                             Chỉnh sửa 
+                        </a>
+                    </div>
+                </div>
+     </div>
     <small class="cv-card__update-at">@item.UpdatedAt</small>
   </div>
 }
@@ -31,7 +111,7 @@
          <h2 class="fs-5">Chọn Template</h2>
       </div>
       <div class="modal-body" >
-          <section class="template-grid">
+          <section class="template-card-grid">
           @foreach (var item in Model.Templates) {
             <div
               class="template-card"
@@ -47,13 +127,10 @@
           </section>
       </div>
       <div class="modal-footer">
-        <a :href="`/User/CV/Create?template=${selection}`" class="btn btn-primary" :class="{ disabled: selection == ''}">Tiếp tục</a>
+        <a :href="`/User/CV/Create?templateId=${selection}`" class="btn btn-primary" :class="{ disabled: selection == ''}">Tiếp tục</a>
       </div>
     </div>
   </div>
 </div>
 
-@section Scripts {
-  <script src="@Url.Content("~/js/format-update-at.js")"></script>
-}
 

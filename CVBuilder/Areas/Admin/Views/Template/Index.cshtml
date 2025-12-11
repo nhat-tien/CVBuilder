@@ -76,9 +76,14 @@
                          x-transition.origin.top.left
                          x-on:click.outside="close($refs.button)"
                          x-cloak
-                         class="position-absolute top-0 start-100 bg-white flex w-max-content flex-column gap-2 border p-3 rounded shadow-sm">
-                        <a href="#new" class="" onclick="handleDelete(@item.Id)">
-                            <i class="fa fa-trash" aria-hidden="true"></i> Xóa
+                         class="position-absolute top-0 start-100 bg-white flex w-max-content flex-column gap-2 border p-2 rounded shadow-sm">
+                        <a href="#new" class="" onclick="handleDelete(@item.Id)">        
+                                <i class="fa fa-trash me-2" aria-hidden="true" style="color: var(--warning-color-500)"></i>
+                             Xóa
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@(item.Id)" class="">        
+                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="color: var(--edit-color-500)"></i>
+                             Chỉnh sửa 
                         </a>
                     </div>
                 </div>

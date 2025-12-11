@@ -2,7 +2,27 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Header {
+    <style>
+        .hero {
+            background-color: #fdfdfd;
+            opacity: 0.8;
+            background-image: linear-gradient(#f2f2ff 4px, transparent 4px), linear-gradient(90deg, #f2f2ff 4px, transparent 4px), linear-gradient(#f2f2ff 2px, transparent 2px), linear-gradient(90deg, #f2f2ff 2px, #fdfdfd 2px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -4px -4px, -4px -4px, -2px -2px, -2px -2px;
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+}
+
+<section class="hero d-flex flex-column align-items-center justify-content-center">
+    <p class="fs-3">CV Builder</p>
+    <h1 class="fw-bold" style="font-size: 4rem">Tạo CV Chuyên Nghiệp Trong Vài Phút</h1>
+    <p class="mt-2 text-center" style="width: 70ch">CVBuilder giúp bạn tạo CV ấn tượng, hiện đại và tối ưu tuyển dụng chỉ với vài bước đơn giản. Tự do tùy chỉnh, xem trước theo thời gian thực và xuất bản CV của bạn ngay lập tức</p>
+    <div class="d-flex flex-row gap-2 mt-2">
+        <button type="button" class="btn btn-primary">Bắt đầu ngay</button>
+        <button type="button" class="btn btn-outline-primary">Xem mẫu CV</button>
+    </div>
+    
+</section>

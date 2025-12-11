@@ -1,22 +1,28 @@
 
 function timeAgo(date) {
-  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    const parts = date.match(/(\d{1,2})\/(\d{1,2})\/(\d{4}) (.*)/);
+    const day = parts[1];
+    const month = parts[2];
+    const year = parts[3];
+    const time = parts[4];
+    const correctDateString = `${month}/${day}/${year} ${time}`;
+    const seconds = Math.floor((new Date() - new Date(correctDateString)) / 1000);
 
+    console.log(new Date(date));
   const intervals = {
-    year:   { lable: "năm", value: 365 * 24 * 60 * 60 },
-    month:  { lable: "tháng", value: 30  * 24 * 60 * 60 },
-    week:   { lable: "tuần", value: 7   * 24 * 60 * 60 },
-    day:    { lable: "ngày", value: 24  * 60 * 60 },
-    hour:   { lable: "giờ", value: 60  * 60 },
-    minute: { lable: "phút", value: 60 },
-    second: { lable: "giây", value:  1 }
+    year:   { label: "năm", value: 365 * 24 * 60 * 60 },
+    month:  { label: "tháng", value: 30  * 24 * 60 * 60 },
+    week:   { label: "tuần", value: 7   * 24 * 60 * 60 },
+    day:    { label: "ngày", value: 24  * 60 * 60 },
+    hour:   { label: "giờ", value: 60  * 60 },
+    minute: { label: "phút", value: 60 },
+    second: { label: "giây", value:  1 }
   };
 
   for (const unit in intervals) {
-    console.log(seconds)
     const count = Math.floor(seconds / intervals[unit].value);
     if (count >= 1) {
-      return `${count} ${intervals[unit].lable} trước`;
+      return `${count} ${intervals[unit].label} trước`;
     }
   }
   return "Bây giờ";

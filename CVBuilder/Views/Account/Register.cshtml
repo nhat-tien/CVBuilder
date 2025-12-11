@@ -1,0 +1,36 @@
+﻿@model CVBuilder.Controllers.AccountController.RegisterRequest;
+
+@{
+    Layout = "_AccountLayout";
+}
+
+<div class="shadow-box d-flex flex-column bg-white align-items-center justify-content-between" style="width: 100%">
+                    <div>
+                        <h2 class="mb-5 text-center" style="margin-top: 100px">Tạo tài khoản</h2>
+                       <form asp-action="Register" class="d-flex flex-column gap-3" style="min-width: 50ch">
+                           <div class="form-group text-left form-floating">
+                               <input id="name-input" type="text" class="form-control" placeholder="Tên" asp-for="Name" value="">
+                               <label for="name-input">Tên</label>
+                           </div>
+                           <div class="form-group text-left form-floating">
+                               <input id="email-input" type="text" class="form-control" placeholder="Email" asp-for="Email"  value="">
+                               <label for="email-input">Email</label>
+                           </div>
+                           <div class="form-group text-left form-floating position-relative" x-data="{visible: false}">
+                               <input id="password-input" :type="visible ? 'text' : 'password'" class="form-control" placeholder="Mật khẩu" asp-for="Password" value="">
+                               <label for="password-input">Mật khẩu</label>
+                               <div class="position-absolute top-0 end-0 fs-3" x-on:click="visible = !visible" style="transform: translateY(10px)">
+                                   <i x-show="visible" class="bi bi-eye"></i>
+                                   <i x-show="!visible" class="bi bi-eye-slash"></i>
+                               </div>
+                           </div>
+                          <button type="submit" class="btn btn-primary w-100">Tạo</button>
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                      </form>
+                      </div>
+                    <div class="mb-5">
+                          <div class="text-center">
+                          Đã có tài khoản?&nbsp;<a style="color: var(--icon-color)" asp-action="Login">đăng nhập</a>
+                          </div>
+                      </div>
+ </div>

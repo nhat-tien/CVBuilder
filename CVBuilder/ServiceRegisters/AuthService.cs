@@ -11,7 +11,14 @@ public static class AuthService
         this IServiceCollection services
     )
     {
-        services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+        services.AddIdentity<User, IdentityRole>(options => {
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
+            options.SignIn.RequireConfirmedAccount = false;
+        })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - CVBuilder</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/CVBuilder.styles.css" asp-append-version="true"/>
+    <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
+    <style>
+        .auth-page {
+            --icon-color: #685ea1;
+            background: linear-gradient(320deg,#ebe6f8,#fefefe);
+        }
+
+        .icon-list {
+            display: grid;
+            grid-template-columns: 20% 1fr;
+            grid-template-rows: repeat(3, 1fr);
+            grid-row-gap: 2rem;
+        }
+        .icon-list i {
+            font-size: 2rem;
+        }
+        .shadow-box {
+            box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+        }
+        .bi-linkedin {
+            color: #3374a3;
+        }
+        .bi-facebook {
+            color: #425692;
+        }
+        .btn-social {
+            border: 1px solid var(--text-color-100);
+            background-color: transparent;
+            padding:0.5em 1em;
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+     @await RenderSectionAsync("Header", required: false)
+</head>
+<body>
+    <main role="main">
+<section class="auth-page d-flex w-100 justify-content-center">
+    <div class="main d-flex justify-content-center w-100">
+        <div class="position-absolute top-0 start-0 p-2">
+            <img src="/assets/images/logo.png" style="width: 150px"/>
+        </div>
+        <div class="main d-flex justify-content-center flex-sm-wrap" style="height: 100vh; width: 90%">
+            <div class="col-md-6">
+                <div class="col-auto d-flex flex-column align-items-center h-100 justify-content-center gap-2" style="max-width: 283px; margin: 0px auto;">
+                    <h5 class="fs-3">Create a resume you are proud of</h5>
+                    <div>
+                        <div class="icon-list">
+                            <i class="bi bi-piggy-bank" style="color: var(--icon-color)"></i>
+                            <p class="custom-bullet-text text-antialiased">Save time with hassle-free templates</p>
+                            <i class="bi bi-rocket-takeoff" style="color: var(--icon-color)"></i>
+                            <p class="custom-bullet-text text-antialiased">
+                                Beat the competition using actionable, contextual advice
+                                </p>
+                            <i class="bi bi-fire" style="color: var(--icon-color)"></i>
+                            <p class="custom-bullet-text text-antialiased">Highlight key achievements with memorable visuals</p>
+                        </div>
+                    </div>
+                    <div class="mt-5">Get inspired by <a target="_blank" href="#" style="color: var(--icon-color)">
+                        1800+ Free Resume Examples and Templates
+                        </a>
+                    </div>                         
+                </div>
+            </div>
+            <div class="d-flex col-md-6">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</section>
+    </main>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

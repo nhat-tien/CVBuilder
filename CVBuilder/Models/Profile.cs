@@ -20,6 +20,102 @@ public class Profile
     public string Phone { get; set; } = "";
     public string Address { get; set; } = "";
 
-    public ICollection<ProfileLink> ProfileLink { get; set; } = null!;
-    public ICollection<ProfileSection> ProfileSections { get; set; } = null!;
+    // 
+    //
+    //
+    //    
+    //
+    //
+    public string ProfileLink { get; set; } = "";
+
+    /*
+     * {
+        "side-sections": [
+          {
+            "title": "",
+            "subsections": [
+                {
+                    "title": "",
+                    "subtitle": "",
+                     "date": ""
+                }
+                ]
+          },
+       ],
+        "sections": [
+        {
+            "title": "",
+            "subsections": [
+                {
+                    "text": ""
+                }
+            ]
+        },
+        {
+            "title": "",
+            "subsections": [
+                {
+                    "items": []
+                }
+            ]
+        },
+        {
+            "title": "",
+            "subsections": [
+                {
+                    "title": "",
+                    "subtitle": "",
+                    "items": [],
+                    "date": ""
+                }
+            ]
+        }
+    ],
+     */
+
+    public string ProfileSections { get; set; } = """
+        {
+        "side-sections": [
+          {
+            "title": "",
+            "subsections": [
+                {
+                    "title": "",
+                    "subtitle": "",
+                     "date": ""
+                }
+                ]
+          }
+        ],
+        "sections": [
+        {
+            "title": "",
+            "subsections": [
+                {
+                    "text": ""
+                }
+            ]
+        },
+        {
+            "title": "",
+            "subsections": [
+                {
+                    "items": []
+                }
+            ]
+        },
+        {
+            "title": "",
+            "subsections": [
+                {
+                   "title": "",
+                    "subtitle": "",
+                    "items": [],
+                    "date": ""
+                }
+            ]
+        }
+        ]
+        }
+        """;
 }

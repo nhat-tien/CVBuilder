@@ -46,6 +46,9 @@ namespace CVBuilder.Migrations
                     b.Property<string>("ThemeColor")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -91,6 +94,14 @@ namespace CVBuilder.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfileLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileSections")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Summary")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -108,62 +119,6 @@ namespace CVBuilder.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Profiles");
-                });
-
-            modelBuilder.Entity("CVBuilder.Models.ProfileLink", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Href")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProfileId");
-
-                    b.ToTable("ProfileLinks");
-                });
-
-            modelBuilder.Entity("CVBuilder.Models.ProfileSection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subsection")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProfileId");
-
-                    b.ToTable("ProfileSections");
                 });
 
             modelBuilder.Entity("CVBuilder.Models.Template", b =>
@@ -439,28 +394,6 @@ namespace CVBuilder.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CVBuilder.Models.ProfileLink", b =>
-                {
-                    b.HasOne("CVBuilder.Models.Profile", "Profile")
-                        .WithMany("ProfileLink")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
-                });
-
-            modelBuilder.Entity("CVBuilder.Models.ProfileSection", b =>
-                {
-                    b.HasOne("CVBuilder.Models.Profile", "Profile")
-                        .WithMany("ProfileSections")
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Profile");
-                });
-
             modelBuilder.Entity("CVBuilder.Models.Template", b =>
                 {
                     b.HasOne("CVBuilder.Models.User", "User")
@@ -519,13 +452,6 @@ namespace CVBuilder.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CVBuilder.Models.Profile", b =>
-                {
-                    b.Navigation("ProfileLink");
-
-                    b.Navigation("ProfileSections");
                 });
 
             modelBuilder.Entity("CVBuilder.Models.Template", b =>

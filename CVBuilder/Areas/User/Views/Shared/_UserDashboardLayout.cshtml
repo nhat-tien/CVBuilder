@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
   string url = Context.Request.Path;
@@ -12,17 +16,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>@ViewData["Title"] - CVBuilder</title>
   <link rel="stylesheet" href="~/lib/bootstrap-icons/bootstrap-icons.css">
+  <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.css" />
   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css">
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
   <link rel="stylesheet" href="~/CVBuilder.styles.css" asp-append-version="true" />
+    <script src="@Url.Content("~/lib/alpinejs/alpinejs-cdn.min.js")" defer></script>
   @await RenderSectionAsync("Header", required: false)
 </head>
 
 <body>
   <div class="dashboard">
-    <header class="dashboard__header">
+    <header class="dashboard__header d-flex justify-content-end">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <div class="dropdown d-flex justify-content-center align-items-center">
+                        <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                            @User.Identity?.Name 
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if(User.IsInRole("Admin"))
+                            {
+                                <li><a class="dropdown-item" href="/Admin/Dashboard">Dashboard</a></li>
+                            }
+
+                            @if(User.IsInRole("User"))
+                            {
+                                <li><a class="dropdown-item" href="/User/Dashboard">Dashboard</a></li>
+                            }
+                            <li>
+                                <form asp-controller="Account" asp-action="Logout" method="post" asp-area="">
+                                    <button class="dropdown-item">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
     </header>
       <nav class="dashboard__sidemenu sidebar">
+          <div class="d-flex justify-content-center py-3">
+              <img src="/assets/images/logo.png" style="width: 100px"/>
+          </div>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link @(path == "CV" ? "active" : "")" asp-controller="CV" asp-action="Index" >
@@ -55,12 +90,28 @@
       <main class="dashboard__main">
         @RenderBody()
       </main>
+        <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3">
+           
+        </div>
+
   </div>
 
   <footer class="border-top footer text-muted"></footer>
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @if (TempData["Toasts"] != null)
+    {
+        var toasts = TempData["Toasts"].ToString();
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const items = @Html.Raw(toasts);
+                items.forEach(t => showToast({ title: t.title, content: t.content, type: t.type }));
+            });
+        </script>
+    }
   @await RenderSectionAsync("Scripts", required: false)
 </body>
 

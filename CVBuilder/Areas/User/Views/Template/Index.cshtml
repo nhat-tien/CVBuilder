@@ -1,4 +1,4 @@
-@model IEnumerable<CVBuilder.Models.Template>
+﻿@model IEnumerable<CVBuilder.Models.Template>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,21 +8,68 @@
    <link rel="stylesheet" href="~/css/Shared/Template/index.css"/>
 }
 
-<h1>Index</h1>
+@section Scripts {
+    <script>
+        function initMenu() {
+            return {
+                open: false,
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+                    this.$refs.button.focus()
+
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (!this.open) return
+
+                    this.open = false
+
+                    focusAfter && focusAfter.focus()
+                }
+            }
+        }
+
+    </script>
+}
 
 <section class="template-card-grid">
 @foreach (var item in Model) {
-  <div class="">
+  <div class="template-card">
     <div class="template-card__thumbnail">
-      <img src="https://placehold.co/600x400?text=thumbnail" />
+    <img src="@item.PreviewImageUrl" />
     </div>
-    <p class="template-card__title">@item.Name</p>
+    <div class="d-flex justify-content-between align-items-center p-1">
+        <p class="template-card__title">@item.Name</p>
+                <div x-data="initMenu()"
+                     x-on:keydown.escape.prevent.stop="close($refs.button)"
+                     x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+                     x-id="['dropdown-button']"
+                     class="position-relative">
+
+                    <div x-ref="button"
+                            x-on:click="toggle()"
+                            type="button"
+                            class="btn">
+                        <i class="fa fa-ellipsis-v fs-4" aria-hidden="true"></i>
+                    </div>
+
+                    <div x-ref="panel"
+                         x-show="open"
+                         x-transition.origin.top.left
+                         x-on:click.outside="close($refs.button)"
+                         x-cloak
+                         class="position-absolute top-0 start-100 bg-white flex w-max-content flex-column gap-2 border p-2 rounded shadow-sm">
+                        <a asp-controller="CV" asp-action="Create" asp-route-templateId="@(item.Id)" class="">        
+                            <i class="fa fa-external-link" aria-hidden="true"></i>
+                            Tạo CV với template này 
+                        </a>
+                    </div>
+                </div>
+        
+    </div>
   </div>
 }
 </section>
-
-

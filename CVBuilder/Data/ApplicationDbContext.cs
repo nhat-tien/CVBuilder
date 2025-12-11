@@ -7,8 +7,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
 
     public DbSet<Profile> Profiles {get; set; } = null!;
-    public DbSet<ProfileLink> ProfileLinks {get; set; } = null!;
-    public DbSet<ProfileSection> ProfileSections {get; set; } = null!;
     public DbSet<CV> CV {get; set; } = null!;
     public DbSet<Template> Templates {get; set; } = null!;
 
@@ -37,15 +35,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany(t => t.CVs)
             .HasForeignKey(c => c.TemplateId);
 
-        builder.Entity<Profile>()
-            .HasMany(c => c.ProfileSections)
-            .WithOne(t => t.Profile)
-            .HasForeignKey(c => c.ProfileId);
-
-        builder.Entity<Profile>()
-            .HasMany(c => c.ProfileLink)
-            .WithOne(t => t.Profile)
-            .HasForeignKey(c => c.ProfileId);
     }
 }
 

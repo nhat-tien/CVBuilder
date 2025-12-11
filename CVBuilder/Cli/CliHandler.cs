@@ -1,3 +1,5 @@
+using CVBuilder.Models;
+using Microsoft.AspNetCore.Identity;
 using CVBuilder.Data.Seeder;
 
 namespace CVBuilder.Cli;
@@ -13,6 +15,9 @@ public static class CliHandler
         {
             case "seed-data":
                 await SeedData(services);
+                break;
+            case "seed-admin":
+                await SeedSuperAdminAsync(services);
                 break;
             default:
                 Console.WriteLine("Unknown Command");
@@ -31,6 +36,40 @@ public static class CliHandler
         catch (Exception ex)
         {
             Console.WriteLine("❌ Error seeding data: " + ex.Message);
+        }
+    }
+
+    public static async Task SeedSuperAdminAsync(IServiceProvider serviceProvider)
+    {
+        var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var config = serviceProvider.GetRequiredService<IConfiguration>();
+
+        string superAdminEmail = config["Admin:Email"]!;
+        string superAdminPassword = config["Admin:Password"]!;
+        string superAdminFullname = config["Admin:FullName"]!;
+
+        var adminUser = await userManager.FindByEmailAsync(superAdminEmail);
+        if (adminUser == null)
+        {
+            adminUser = new User()
+            {
+                UserName = superAdminEmail,
+                Email = superAdminEmail,
+                EmailConfirmed = true,
+                Name = superAdminFullname,
+            };
+
+            var result = await userManager.CreateAsync(adminUser, superAdminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
+            else
+            {
+                throw new Exception("Failed to create super admin:\n" +
+                    string.Join("\n", result.Errors.Select(e => e.Description)));
+            }
         }
     }
 }
